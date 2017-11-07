@@ -34,32 +34,54 @@ function getJSON() {
 		info = JSON.parse(info);
 		
 		var output = '';
+		var spaces = -1;
 
 		for (key in info){
 			
 			typeFunction(info[key]);
 			
 			function arrayFunction(array){
-				output += '<br><span style="color: blue;">Массив []</span><br>';
+				spaces++;
 				
+				showSpacesFunction();
+				
+				output +='<span style="color: blue;">Массив []</span><br>';
+
 				for(var i = 0; i < array.length; i++){
 					objectFunction(array[i]);
 				}
-				output += '<span style="color: blue;">конец массива</span><br><br>';
+				
+				showSpacesFunction();
+				
+				output += '<span style="color: blue;">Конец массива</span><br>';
+				
+				spaces--;
 			}
 			
 			function objectFunction(object){
-				output += '<br><span style="color: blue;">Объект {}</span><br>';
+				spaces++;
+				
+				showSpacesFunction();
 			
+				output += '<span style="color: blue;">Объект {}</span><br>';
+				
 				for (key in object){
 					if(object.hasOwnProperty(key)){
 						typeFunction(object[key]);
 					}
 				}
-				output += '<span style="color: blue;">конец объекта</span><br><br>';
+				
+				showSpacesFunction();
+				
+				output += '<span style="color: blue;">Конец объекта</span><br>';
+				
+				spaces--;
 			}
 			
 			function otherTypeFunction(otherType){
+			
+				showSpacesFunction();
+			
 				switch(typeof otherType) {
 					case 'string':
 					output += '<span style="color: green;">● string: </span>';
@@ -76,7 +98,8 @@ function getJSON() {
 					case 'symbol':
 					output += '<span style="color: red;">● symbol: </span>';
 					break;
-				}		
+				}
+				
 				output += key + ' ' + otherType + '<br>';
 			}
 			
@@ -89,6 +112,12 @@ function getJSON() {
 					}
 				}else{
 					otherTypeFunction(type);	
+				}
+			}
+			
+			function showSpacesFunction(){
+				for(var i = 0; i <= spaces; i++){
+					output +='----';
 				}
 			}
 
